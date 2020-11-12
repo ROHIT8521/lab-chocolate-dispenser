@@ -101,62 +101,151 @@ var chocolates = [
   "crimson",
 ];
 
-//Progression 1: Add ___ chocolates of ____ color
+//imp. fact check: //
+// top of the dispenser is the beginning of the array  => shift()//
+//bottom of the dispenser is the ending of the array => pop()//
 
+//Trial 1: Add ___ chocolates of ____ color
 function addChocolates(chocolates, color, count) {
-  for (let i = 0; i < count; i++) {
-    chocolates.unshift(color);
-  }
-  if (count <= 0) {
+  if (count > 0) {
+    for (let i = 0; i < count; i++) {
+      //unshift method adds the items to the beginning of the array//
+      chocolates.unshift(color);
+    }
+  } else {
     return "Number cannot be zero/negative";
   }
 }
+//console.log(chocolates);
 
-//Progression 2: Remove ___ chocolates from the top the dispenser
-
+//Trial 2: Remove ___ chocolates from the top the dispenser
 function removeChocolates(chocolates, number) {
-  let remove = [];
-  if (number <= 0) {
-    return "Number cannot be zero/negative";
-  } else if (number > chocolates.length) {
+  var dispense = [];
+
+  if (number > chocolates.length)
     return "Insufficient chocolates in the dispenser";
-  } else {
+  else if (number > 0) {
     for (let i = 0; i < number; i++) {
-      remove.push(chocolates.shift());
+      //shift removes the item from the beginning of the array//
+      dispense[i] = chocolates.shift();
     }
-    return remove;
+    return dispense;
+  } else {
+    return "Number cannot be zero/negative";
   }
 }
 
-//Progression 3: Dispense ___ chocolates
+//Trial 3: Dispense ___ chocolates
 function dispenseChocolates(chocolates, number) {
-  let remove = [];
-  if (number <= 0) {
-    return "Number cannot be zero/negative";
-  } else if (number > chocolates.length) {
+  var dis = [];
+
+  if (number > chocolates.length)
     return "Insufficient chocolates in the dispenser";
-  } else {
+  else if (number > 0) {
     for (let i = 0; i < number; i++) {
-      remove.push(chocolates.pop());
+      dis[i] = chocolates.pop();
     }
-    return remove;
+    return dis;
+  } else {
+    return "Number cannot be zero/negative";
   }
 }
 
-//Progression 4: Dispense ___ chocolates of ____ color
+//Trial 4: Dispense ___ chocolates of ____ color
+
 function dispenseChocolatesOfColor(chocolates, number, color) {
-  let remove = [];
-  for (i = 0; i < number; i++) {}
+  var count = 0;
+  var dispense = [];
+  if (number > chocolates.length)
+    return "Insufficient chocolates in the dispenser";
+  else if (number > 0) {
+    for (let i = chocolates.length; i >= 0; i--) {
+      if (color == chocolates[i]) {
+        dispense[count++] = chocolates.pop();
+      }
+      if (count == number) {
+        break;
+      }
+    }
+    return dispense;
+  } else {
+    return "Number cannot be zero/negative";
+  }
 }
 
-//Progression 5: Display ___ chocolates of each color. Return array of numbers [green, silver, blue, crimson, purple, red, pink]
+//Trial 5: Display ___ chocolates of each color. Return array of numbers [green, silver, blue, crimson, purple, red, pink]
 
-//Progression 6: Sort chocolates based on count in each color. Return array of colors
+function noOfChocolates(chocolates) {
+  var dispense = [];
+  var cho = ["green", "silver", "blue", "crimson", "purple", "red", "pink"];
 
-//Progression 7: Change ___ chocolates of ____ color to ____ color
+  for (let i = 0; i < cho.length; i++) {
+    var count = 0;
+    for (let j = 0; j < chocolates.length; j++) {
+      if (cho[i] == chocolates[j]) count++;
+    }
+    dispense[i] = count;
+  }
+  return dispense.filter(Number);
+}
 
-//Progression 8: Change all chocolates of ____ color to ____ color and return [countOfChangedColor, chocolates]
+//Trial 6: Sort chocolates based on count in each color. Return array of colors
 
-//Challenge 1: Remove one chocolate of ____ color from the top
+function sortChocolateBasedOnCount(chocolates) {
+  let cho = chocolates.reduce(function (temp1, temp2) {
+    if (temp2 in temp1) {
+      temp1[temp2]++;
+    } else {
+      temp1[temp2] = 1;
+    }
+    return temp1;
+  }, {});
+  let Array = chocolates.sort((temp1, temp2) => {
+    if (cho[temp2] > cho[temp1]) {
+      return 1;
+    }
+    if (cho[temp2] < cho[temp1]) {
+      return -1;
+    }
+    if (temp1 > temp2) {
+      return 1;
+    }
+    if (temp1 < temp2) {
+      return -1;
+    }
+  });
+  chocolates = Array;
+}
 
-//Challenge 2: Dispense 1 rainbow colored colored chocolate for every 3 chocolates of the same color dispensed
+//Trial 7: Change ___ chocolates of ____ color to ____ color
+
+function changeChocolateColor(chocolates, count, color, lastColor) {
+  if (color == lastColor) {
+    return "Can't replace the same chocolates";
+  } else if (count > 0) {
+    for (let i = 0; i < chocolates.length; i++) {
+      if (chocolates[i] == color) {
+        chocolates[i] = lastColor;
+      }
+    }
+    return chocolates;
+  } else {
+    return "Number cannot be zero/negative";
+  }
+}
+
+//Trial 8: Change all chocolates of ____ color to ____ color and return [countOfChangedColor, chocolates]
+
+function changeChocolateColorAllOfxCount(chocolates, color, lastColor) {
+  if (color == lastColor) {
+    return "Can't replace the same chocolates";
+  } else {
+    for (let i = 0; i < chocolates.length; i++) {
+      if (chocolates[i] == color) {
+        chocolates[i] = lastColor;
+      }
+    }
+    var out = [chocolates.length, chocolates];
+    return out;
+  }
+}
